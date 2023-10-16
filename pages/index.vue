@@ -8,7 +8,14 @@
       <Aside />
     </template>
     <template #content>
-      content
+      <div class="page">
+        <div class="page-top">
+          <Header />
+        </div>
+        <div class="page-editor">
+
+        </div>
+      </div>
     </template>
   </NuxtLayout>
 
