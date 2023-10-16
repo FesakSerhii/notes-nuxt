@@ -3,6 +3,14 @@
 </script>
 
 <template>
+  <NuxtLayout>
+    <template #aside>
+      <div>name</div>
+    </template>
+    <template #content>
+      content
+    </template>
+  </NuxtLayout>
 
 </template>
 
