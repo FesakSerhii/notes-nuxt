@@ -1,4 +1,12 @@
 <script setup lang="ts">
+import {useMainStore} from "~/stores";
+
+const {nodesAll} = useMainStore();
+
+
+
+
+
 
 </script>
 
@@ -13,7 +21,8 @@
           <Header />
         </div>
         <div class="page-editor">
-
+          <Editor v-show="editActive" />
+          <Preview v-show="!editActive" />
         </div>
       </div>
     </template>
