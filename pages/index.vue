@@ -5,7 +5,7 @@
 <template>
   <NuxtLayout>
     <template #aside>
-      <div>name</div>
+      <Aside />
     </template>
     <template #content>
       content
