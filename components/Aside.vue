@@ -18,6 +18,7 @@ const create = async () => {
 
 const openNote = (item: Note) => {
   store.setActiveNote(item);
+  store.editActive = false
   router.push({
     path: "",
     query: {id: item?.id},

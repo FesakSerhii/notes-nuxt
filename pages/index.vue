@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import {useMainStore} from "~/stores";
+import moment from "moment/moment";
 
 const store = useMainStore();
 const route = useRoute();
@@ -34,6 +35,9 @@ onBeforeMount(async () => {
           <Header />
         </div>
         <div class="page-editor">
+          <div class="page-editor-date" v-if="store.activeNote">
+            {{moment(store.activeNote?.date).format("DD/MM/YYYY  h:mm:ss") || ""}}
+          </div>
           <Editor v-show="store.editActive" />
           <Preview v-show="!store.editActive" />
         </div>

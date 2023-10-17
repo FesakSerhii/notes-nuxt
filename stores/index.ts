@@ -1,5 +1,5 @@
 import {acceptHMRUpdate, defineStore} from "pinia";
-import {deleteNode, getNodesAll, postNode} from "~/composables/indexedDB";
+import {deleteNode, getNodesAll, postNode, putNode} from "~/composables/indexedDB";
 
 export interface MainStore {
     notesList: Note[]
@@ -41,6 +41,20 @@ export const useMainStore = defineStore("main", {
             await deleteNode(id);
             this.activeNote = null;
             this.notesList = await getNodesAll();
+        },
+
+        async updateNote(id: number, text: string) {
+            if(this.activeNote && this.activeNote.id === id) {
+                if (text?.trim().includes('#')) {
+                    this.activeNote.title = text.length <= 22 ? text.trim() : text.substring(0, 23)+'...';
+                }
+
+                this.activeNote.text = text;
+                this.activeNote.date = new Date().toISOString();
+
+                await putNode(this.activeNote);
+                this.notesList = await getNodesAll();
+            }
         },
         setActiveNote(item: Note) {
             this.activeNote = item;

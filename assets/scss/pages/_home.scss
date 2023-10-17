@@ -1,0 +1,12 @@
+.page {
+  &-editor {
+    margin-top: 20px;
+    width: 100%;
+    height: calc(100vh - 105px);
+    &-date {
+      text-align: center;
+      font-size: 18px;
+      margin-bottom: 25px;
+    }
+  }
+}

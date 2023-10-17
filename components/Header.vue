@@ -1,11 +1,19 @@
 <script setup lang="ts">
+import {useMainStore} from "~/stores";
+
+const store = useMainStore();
+
+const onEdit = () => {
+  store.editActive = !store.editActive;
+}
 
 </script>
 
 <template>
   <header class="header">
     <div class="header-nav">
-      <IconsEdit class="icon-edit"/>
+      <IconsEdit v-if="store.activeNote && !store.editActive" class="icon-edit" @click="onEdit()"/>
+      <IconsMd v-if="store.activeNote && store.editActive" class="icon-edit" @click="onEdit()"/>
     </div>
     <div class="header-search">
       <Search />

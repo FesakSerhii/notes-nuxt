@@ -91,8 +91,8 @@ export const putNode = async (item: Note): Promise<void> => {
     const store: IDBObjectStore = trans.objectStore('notesApp');
 
     return new Promise((resolve, reject) => {
-        const request: IDBRequest = store.put(item)
 
+        const request: IDBRequest = store.put({...item})
         request.onsuccess = () => {
             resolve()
         }
