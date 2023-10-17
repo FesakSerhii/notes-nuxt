@@ -3,21 +3,21 @@ import {deleteNode, getNodesAll, postNode, putNode} from "~/composables/indexedD
 
 export interface MainStore {
     notesList: Note[]
-    activeNote: Note | null,
+    activeNote: Note | null
     editActive: boolean
+    searchQuery: string | null
 }
 export const useMainStore = defineStore("main", {
     state: (): MainStore => {
         return {
             notesList: [],
             activeNote: null,
-            editActive: false
+            editActive: false,
+            searchQuery: null,
         }
     },
     getters: {
-        getActiveNode() {
 
-        }
     },
     actions: {
         async nodesAll() {
@@ -56,8 +56,27 @@ export const useMainStore = defineStore("main", {
                 this.notesList = await getNodesAll();
             }
         },
+
         setActiveNote(item: Note) {
             this.activeNote = item;
+        },
+
+        async setSearchText(q: string) {
+            this.searchQuery = q || null;
+            const text = q.toLowerCase().trim();
+            const list = await getNodesAll();
+            this.notesList = list.filter((note: Note) => (note.title?.toLowerCase().includes(text) || note.text?.toLowerCase().includes(text)) && note)
+            if(this.notesList && this.notesList.length) {
+                this.setActiveNote(this.notesList[0])
+                // this.activeNote = this.notesList[0];
+                this.editActive = false;
+                await navigateTo({
+                    path: "",
+                    query: {id: this.activeNote?.id},
+                })
+            } else {
+                this.activeNote = null
+            }
         }
     }
 });

@@ -1,11 +1,21 @@
 <script setup lang="ts">
+import {useMainStore} from "~/stores";
 
+const store = useMainStore();
+const input = ref('');
+
+const search = async () => {
+  store.setSearchText(input.value)
+}
 </script>
 
 <template>
   <label>
     <IconsSearch class="icon-search"/>
-    <input type="text" placeholder="Search">
+    <input type="text"
+           v-model="input"
+           placeholder="Search"
+           @input="search">
   </label>
 </template>
 

@@ -6,14 +6,19 @@ const store = useMainStore();
 const onEdit = () => {
   store.editActive = !store.editActive;
 }
-
+// watchEffect(() => {
+//   console.log(store.activeNote);
+// })
 </script>
 
 <template>
   <header class="header">
     <div class="header-nav">
-      <IconsEdit v-if="store.activeNote && !store.editActive" class="icon-edit" @click="onEdit()"/>
-      <IconsMd v-if="store.activeNote && store.editActive" class="icon-edit" @click="onEdit()"/>
+      <template v-if="store.activeNote">
+        <IconsEdit v-if="!store.editActive" class="icon-edit" @click="onEdit()"/>
+        <IconsMd v-if="store.editActive" class="icon-edit" @click="onEdit()"/>
+      </template>
+
     </div>
     <div class="header-search">
       <Search />

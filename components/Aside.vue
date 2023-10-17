@@ -54,10 +54,10 @@ const deleteNode = () => {
          @click="openNote(item)"
          :class="{'active': store.activeNote && store.activeNote?.id === item.id}">
       <div class="list-item-title">
-        {{ item?.title || "Title" }}
+        {{ item?.title || "Empty" }}
       </div>
       <div class="list-item-content">
-        <div class="list-item-date">{{ moment(item?.date).format("h:mm") || "" }}</div>
+        <div class="list-item-date">{{ moment(item?.date).format("HH:mm") || "" }}</div>
         <div class="list-item-text">{{ item?.text || "" }}</div>
       </div>
     </div>
