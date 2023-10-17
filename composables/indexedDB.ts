@@ -103,7 +103,7 @@ export const putNode = async (item: Note): Promise<void> => {
     })
 }
 
-export const deleteNode = async (id: string): Promise<void> => {
+export const deleteNode = async (id: number): Promise<void> => {
     const connect: IDBDatabase = await useConnectBD();
     const trans: IDBTransaction = connect.transaction('notesApp', 'readwrite');
     const store: IDBObjectStore = trans.objectStore('notesApp');

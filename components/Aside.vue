@@ -2,50 +2,67 @@
 import moment from "moment";
 import {useMainStore} from "~/stores";
 
-const {editActive, createNote, notesList} = useMainStore();
+const router = useRouter();
+const route = useRoute();
+const store = useMainStore();
+const veeConfirmRef = ref();
+
+
 const create = async () => {
-  await createNote(true)
+  await store.createNote(true)
+  await router.push({
+    path: "",
+    query: {id: store.activeNote?.id},
+  });
 }
+
+const openNote = (item: Note) => {
+  store.setActiveNote(item);
+  router.push({
+    path: "",
+    query: {id: item?.id},
+  });
+}
+
+const deleteNode = () => {
+  veeConfirmRef.value
+      .open("Delete", "Are you sure?")
+      .then((confirm: any) => {
+        if (confirm) {
+          if (store.activeNote?.id) {
+            store.deleteNote(store.activeNote.id)
+            router.push(route.path);
+          }
+        }
+      });
+}
+
 </script>
 
 <template>
   <div class="nav">
     <div class="nav-icon icon-add" @click="create()"/>
-    <div class="nav-icon">
-      <IconsTrash class="icon-delete"/>
+    <div class="nav-icon" v-if="store.activeNote">
+      <IconsTrash class="icon-delete" @click="deleteNode()"/>
     </div>
   </div>
-  <div class="list-items" v-if="notesList && notesList.length > 0">
+  <div class="list-items" v-if="store.notesList && store.notesList.length > 0">
     <div class="list-item"
-         v-for="item in notesList"
-         :key="item.id">
+         v-for="item in store.notesList"
+         :key="item.id"
+         @click="openNote(item)"
+         :class="{'active': store.activeNote && store.activeNote?.id === item.id}">
       <div class="list-item-title">
-        {{item?.title || 'Title'}}
+        {{ item?.title || "Title" }}
       </div>
       <div class="list-item-content">
-        <div class="list-item-date">{{moment(item?.date).format('h:mm') || ''}}</div>
-        <div class="list-item-text">{{item?.text || ''}}</div>
-      </div>
-    </div>
-    <div class="list-item active">
-      <div class="list-item-title">
-        Heading
-      </div>
-      <div class="list-item-content">
-        <div class="list-item-date">13:18</div>
-        <div class="list-item-text">## h2 Heading ### h3 Heading</div>
-      </div>
-    </div>
-    <div class="list-item">
-      <div class="list-item-title">
-        Heading
-      </div>
-      <div class="list-item-content">
-        <div class="list-item-date">13:18</div>
-        <div class="list-item-text">## h2 Heading ### h3 Heading</div>
+        <div class="list-item-date">{{ moment(item?.date).format("h:mm") || "" }}</div>
+        <div class="list-item-text">{{ item?.text || "" }}</div>
       </div>
     </div>
   </div>
+
+  <ModalsConfirmModal ref="veeConfirmRef"/>
 </template>
 
 <style scoped lang="scss">
@@ -72,6 +89,7 @@ const create = async () => {
     gap: 20px;
     margin-top: 30px;
   }
+
   &-item {
     display: flex;
     flex-direction: column;
@@ -81,25 +99,31 @@ const create = async () => {
     cursor: pointer;
     gap: 8px;
     transition: .3s;
+
     &:first-child {
       &:before {
         display: none;
       }
     }
+
     &.active {
       background-color: #ffd69c;
+
       &:before {
         display: none;
       }
+
       + .list-item {
         &:before {
           display: none;
         }
       }
     }
+
     &:hover {
       background-color: #ffd69c;
     }
+
     &:before {
       content: '';
       position: absolute;
@@ -114,14 +138,17 @@ const create = async () => {
       font-weight: 600;
       font-size: 22px;
     }
+
     &-content {
       display: flex;
       gap: 16px;
 
     }
+
     &-date {
       font-size: 18px;
     }
+
     &-text {
       font-size: 18px;
       color: rgba(124, 124, 124, 0.7);

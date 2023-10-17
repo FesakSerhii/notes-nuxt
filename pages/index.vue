@@ -1,22 +1,24 @@
 <script setup lang="ts">
 import {useMainStore} from "~/stores";
 
-const {editActive} = useMainStore();
-
+const store = useMainStore();
 const route = useRoute();
-
+const router = useRouter();
 const {nodesAll} = useMainStore();
-const id = ref(route.query.note);
 
 onBeforeMount(async () => {
   await nodesAll()
+  if(route.query.id) {
+    let id: number = Number(route.query.id)
+    let note: any[] = store.notesList.filter((a: Note) => a.id === id)
+    if(note.length) {
+      store.setActiveNote(note[0]);
+    } else {
+      router.push(route.path)
+    }
+  }
 });
 
-
-watch(
-    () => route.query,
-    (query) => {id.value = query.note}
-)
 
 
 </script>
@@ -32,8 +34,8 @@ watch(
           <Header />
         </div>
         <div class="page-editor">
-          <Editor v-show="editActive" />
-          <Preview v-show="!editActive" />
+          <Editor v-show="store.editActive" />
+          <Preview v-show="!store.editActive" />
         </div>
       </div>
     </template>
