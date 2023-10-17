@@ -9,7 +9,7 @@ const veeConfirmRef = ref();
 
 
 const create = async () => {
-  await store.createNote(true)
+  await store.createNote()
   await router.push({
     path: "",
     query: {id: store.activeNote?.id},
@@ -17,8 +17,8 @@ const create = async () => {
 }
 
 const openNote = (item: Note) => {
-  store.setActiveNote(item);
   store.editActive = false
+  store.setActiveNote(item);
   router.push({
     path: "",
     query: {id: item?.id},
@@ -46,6 +46,7 @@ const deleteNode = () => {
     <div class="nav-icon" v-if="store.activeNote">
       <IconsTrash class="icon-delete" @click="deleteNode()"/>
     </div>
+    <span class="add-note-text" v-if="!store.notesList || store.notesList.length === 0" @click="create()">Add a new note</span>
   </div>
   <div class="list-items" v-if="store.notesList && store.notesList.length > 0">
     <div class="list-item"
@@ -69,6 +70,7 @@ const deleteNode = () => {
 <style scoped lang="scss">
 .nav {
   display: flex;
+  align-items: center;
   padding: 0 20px;
   gap: 20px;
 
@@ -82,7 +84,9 @@ const deleteNode = () => {
     cursor: pointer;
   }
 }
-
+.add-note-text {
+    cursor: pointer;
+}
 .list {
   &-items {
     display: flex;

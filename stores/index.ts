@@ -5,7 +5,7 @@ export interface MainStore {
     notesList: Note[]
     activeNote: Note | null
     editActive: boolean
-    searchQuery: string | null
+    searchQuery: string
 }
 export const useMainStore = defineStore("main", {
     state: (): MainStore => {
@@ -13,7 +13,7 @@ export const useMainStore = defineStore("main", {
             notesList: [],
             activeNote: null,
             editActive: false,
-            searchQuery: null,
+            searchQuery: '',
         }
     },
     getters: {
@@ -26,9 +26,11 @@ export const useMainStore = defineStore("main", {
         isEditActive() {
             this.editActive = !this.editActive;
         },
-        async createNote(clear: boolean = false) {
+        async createNote() {
+            const nodesAll = await getNodesAll();
+            const id = Math.round(Math.max.apply(null, nodesAll.map((a: Note) => a.id)))
             let obj: Note = {
-                id: this.notesList.length + 1,
+                id: id + 1,
                 title: '',
                 text: '',
                 date: new Date().toISOString()
@@ -36,16 +38,27 @@ export const useMainStore = defineStore("main", {
             await postNode(obj);
             await this.nodesAll()
             this.activeNote = obj;
+            this.editActive = true;
+            this.searchQuery = ''
         },
         async deleteNote(id: number) {
             await deleteNode(id);
             this.activeNote = null;
-            this.notesList = await getNodesAll();
+            if(this.searchQuery) {
+                this.setSearchText(this.searchQuery)
+            } else {
+                this.editActive = false;
+                this.notesList = await getNodesAll();
+
+            }
         },
 
         async updateNote(id: number, text: string) {
             if(this.activeNote && this.activeNote.id === id) {
                 if (text?.trim().includes('#')) {
+                    const index = text.indexOf('#');
+                    this.activeNote.title = text.substring(index, index + 23)
+                } else {
                     this.activeNote.title = text.length <= 22 ? text.trim() : text.substring(0, 23)+'...';
                 }
 
@@ -59,16 +72,18 @@ export const useMainStore = defineStore("main", {
 
         setActiveNote(item: Note) {
             this.activeNote = item;
+            if(item.text?.length === 0) {
+                this.editActive = true;
+            }
         },
 
         async setSearchText(q: string) {
-            this.searchQuery = q || null;
+            this.searchQuery = q || '';
             const text = q.toLowerCase().trim();
             const list = await getNodesAll();
             this.notesList = list.filter((note: Note) => (note.title?.toLowerCase().includes(text) || note.text?.toLowerCase().includes(text)) && note)
             if(this.notesList && this.notesList.length) {
                 this.setActiveNote(this.notesList[0])
-                // this.activeNote = this.notesList[0];
                 this.editActive = false;
                 await navigateTo({
                     path: "",

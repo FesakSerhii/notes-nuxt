@@ -45,18 +45,19 @@ export default defineComponent({
         <div class="modal-footer">
           <button
               type="button"
-              @click.native="agree"
-              class="agree"
-          >
-            Agree
-          </button>
-          <button
-              type="button"
               @click.native="cancel"
               class="cancel"
           >
             Cancel
           </button>
+          <button
+              type="button"
+              @click.native="agree"
+              class="agree"
+          >
+            Agree
+          </button>
+
         </div>
       </div>
     </div>
@@ -105,6 +106,7 @@ export default defineComponent({
       cursor: pointer;
       opacity: .8;
       transition: .3s;
+      font-size: 18px;
       &.agree {
         background-color: rgba(0, 128, 0, 1);
       }

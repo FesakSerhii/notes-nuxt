@@ -3,10 +3,19 @@ import {useMainStore} from "~/stores";
 
 const store = useMainStore();
 const input = ref('');
-
+const {searchQuery} = storeToRefs(store);
 const search = async () => {
   store.setSearchText(input.value)
 }
+
+watch(searchQuery, () => {
+  if (searchQuery && searchQuery.value.length === 0) {
+    setTimeout(() => {
+      input.value = '';
+    }, 100)
+  }
+
+})
 </script>
 
 <template>

@@ -4,18 +4,31 @@ import {useMainStore} from "~/stores";
 const editor = ref();
 const text = ref();
 const store = useMainStore();
-
+const {editActive} = storeToRefs(store);
 const onChange = async () => {
   if(store.activeNote) {
     await store.updateNote(store.activeNote.id, text.value || '')
   }
-
 }
 
 watchEffect(() => {
   if(store.editActive) {
     text.value = store.activeNote?.text
   }
+  if (editor.value && !store.searchQuery) {
+    setTimeout(() => {
+      editor.value.focus();
+    }, 100)
+  }
+})
+
+watch(editActive, () => {
+  if (editor.value) {
+    setTimeout(() => {
+      editor.value.focus();
+    }, 100)
+  }
+
 })
 
 </script>
