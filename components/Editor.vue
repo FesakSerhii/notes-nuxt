@@ -49,11 +49,12 @@ watch(editActive, () => {
 </template>
 
 <style scoped lang="scss">
+@import "~/assets/scss/utils/_functions.scss";
 .editor {
   &-wrap {
     width: 100%;
     overflow: auto;
-    height: calc(100vh - 170px);
+    height: calc(100vh - clamp(85px , functions-vw(170px, 1920px), 170px));
     .markdown-body {
       height: 100%;
     }

@@ -65,6 +65,7 @@ export default defineComponent({
 </template>
 
 <style scoped lang="scss">
+@import "~/assets/scss/utils/_functions.scss";
 .modal {
   top: 50%;
   left: 50%;
@@ -78,35 +79,35 @@ export default defineComponent({
   align-items: center;
   justify-content: center;
   &-wrap {
-    width: 500px;
-    padding: 30px;
+    width: clamp(300px , functions-vw(500px, 1920px), 500px);
+    padding: clamp(15px , functions-vw(30px, 1920px), 30px);
     background-color: #fff;
-    border-radius: 16px;
+    border-radius: clamp(8px , functions-vw(16px, 1920px), 16px);
   }
   &-title {
     text-align: center;
-    font-size: 32px;
+    font-size: clamp(18px , functions-vw(32px, 1920px), 32px);
     color: red;
   }
   &-text {
     text-align: center;
-    font-size: 18px;
-    margin-top: 16px;
+    font-size: clamp(14px , functions-vw(18px, 1920px), 18px);
+    margin-top: clamp(8px , functions-vw(16px, 1920px), 16px);
   }
   &-footer {
     display: flex;
     justify-content: center;
-    gap: 20px;
-    margin-top: 30px;
+    gap: clamp(10px , functions-vw(20px, 1920px), 20px);
+    margin-top: clamp(15px , functions-vw(30px, 1920px), 30px);
     button {
-      height: 34px;
-      padding: 0 16px;
-      border-radius: 8px;
+      height: clamp(25px , functions-vw(34px, 1920px), 34px);
+      padding: 0 clamp(8px , functions-vw(16px, 1920px), 16px);
+      border-radius: clamp(6px , functions-vw(8px, 1920px), 8px);
       color: #fff;
       cursor: pointer;
       opacity: .8;
       transition: .3s;
-      font-size: 18px;
+      font-size: clamp(14px , functions-vw(18px, 1920px), 18px);
       &.agree {
         background-color: rgba(0, 128, 0, 1);
       }

@@ -1,0 +1,6 @@
+@use 'sass:math';
+@import '../core/vars';
+
+@function functions-vw($pixels, $base-vw) {
+  @return math.div($pixels * 100vw, $base-vw);
+}

@@ -1,12 +1,14 @@
+@import "../utils/functions";
+
 .page {
   &-editor {
-    margin-top: 20px;
+    margin-top: clamp(10px , functions-vw(20px, 1920px), 20px);
     width: 100%;
-    height: calc(100vh - 105px);
+    height: calc(100vh - clamp(52.5px , functions-vw(105px, 1920px), 105px));
     &-date {
       text-align: center;
-      font-size: 18px;
-      margin-bottom: 25px;
+      font-size: clamp(14px , functions-vw(18px, 1920px), 18px);
+      margin-bottom: clamp(12.5px , functions-vw(25px, 1920px), 25px);
     }
   }
 }

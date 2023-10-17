@@ -16,5 +16,10 @@ svg {
   path {
     transition: .3s;
   }
+  @media (max-width: 992px) {
+    path {
+      fill: red;
+    }
+  }
 }
 </style>

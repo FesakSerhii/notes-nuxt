@@ -36,8 +36,9 @@ watchEffect(() => {
 </template>
 
 <style scoped lang="scss">
+@import "~/assets/scss/utils/_functions.scss";
 .preview-wrap {
   overflow: auto;
-  height: calc(100vh - 170px);
+  height: calc(100vh - clamp(85px , functions-vw(170px, 1920px), 170px));
 }
 </style>

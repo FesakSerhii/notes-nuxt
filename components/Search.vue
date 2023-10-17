@@ -29,25 +29,26 @@ watch(searchQuery, () => {
 </template>
 
 <style scoped lang="scss">
+@import "~/assets/scss/utils/_functions.scss";
 label {
   border-radius: 8px;
-  width: 340px;
+  width: clamp(170px , functions-vw(340px, 1920px), 340px);
   border: 1px solid #ccc;
-  height: 40px;
+  height: clamp(25px , functions-vw(40px, 1920px), 40px);
   overflow: hidden;
   display: flex;
   align-items: center;
-  gap: 8px;
-  padding: 8px;
+  gap: clamp(4px , functions-vw(8px, 1920px), 8px);
+  padding: clamp(4px , functions-vw(8px, 1920px), 8px);
   input {
-    width: calc(100% - 30px);
+    width: calc(100% - clamp(15px , functions-vw(30px, 1920px), 30px));
     height: 100%;
-    font-size: 16px;
+    font-size: clamp(14px , functions-vw(16px, 1920px), 16px);
   }
 }
 .icon-search {
-  width: 24px;
-  height: 24px;
+  width: clamp(12px , functions-vw(24px, 1920px), 24px);
+  height: clamp(12px , functions-vw(24px, 1920px), 24px);
   opacity: .5;
 }
 </style>

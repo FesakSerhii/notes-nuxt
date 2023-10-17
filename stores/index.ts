@@ -28,9 +28,10 @@ export const useMainStore = defineStore("main", {
         },
         async createNote() {
             const nodesAll = await getNodesAll();
-            const id = Math.round(Math.max.apply(null, nodesAll.map((a: Note) => a.id)))
+            let id: number = Math.round(Math.max.apply(null, nodesAll.map((a: Note) => a.id)))
+            id = id === -Infinity ? 0 : id;
             let obj: Note = {
-                id: id + 1,
+                id: (id || 0) + 1,
                 title: '',
                 text: '',
                 date: new Date().toISOString()
