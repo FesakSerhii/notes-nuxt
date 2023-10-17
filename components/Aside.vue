@@ -1,22 +1,30 @@
 <script setup lang="ts">
+import moment from "moment";
+import {useMainStore} from "~/stores";
 
+const {editActive, createNote, notesList} = useMainStore();
+const create = async () => {
+  await createNote(true)
+}
 </script>
 
 <template>
   <div class="nav">
-    <div class="nav-icon icon-add"/>
+    <div class="nav-icon icon-add" @click="create()"/>
     <div class="nav-icon">
       <IconsTrash class="icon-delete"/>
     </div>
   </div>
-  <div class="list-items">
-    <div class="list-item">
+  <div class="list-items" v-if="notesList && notesList.length > 0">
+    <div class="list-item"
+         v-for="item in notesList"
+         :key="item.id">
       <div class="list-item-title">
-        Heading
+        {{item?.title || 'Title'}}
       </div>
       <div class="list-item-content">
-        <div class="list-item-date">13:18</div>
-        <div class="list-item-text">## h2 Heading ### h3 Heading</div>
+        <div class="list-item-date">{{moment(item?.date).format('h:mm') || ''}}</div>
+        <div class="list-item-text">{{item?.text || ''}}</div>
       </div>
     </div>
     <div class="list-item active">

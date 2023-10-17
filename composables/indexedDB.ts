@@ -6,7 +6,7 @@ export const useConnectBD = (): Promise<IDBDatabase> => {
     }
 
     return new Promise((resolve, reject) => {
-        const request: IDBOpenDBRequest = indexedDB.open('notesApp');
+        const request: IDBOpenDBRequest = indexedDB.open('notesApp', 2);
 
         request.onupgradeneeded = (event: IDBVersionChangeEvent) => {
             const db: IDBDatabase = (event.target as IDBOpenDBRequest)?.result;

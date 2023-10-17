@@ -2,7 +2,7 @@ export {};
 
 declare global {
     interface Note {
-        id: string;
+        id: number;
         title: string | null;
         text: string | null;
         date: string | Date;

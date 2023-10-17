@@ -1,27 +1,36 @@
 import {acceptHMRUpdate, defineStore} from "pinia";
-import {getNodesAll} from "~/composables/indexedDB";
+import {getNodesAll, postNode} from "~/composables/indexedDB";
 
 export interface MainStore {
-    notes: Note[]
+    notesList: Note[]
     editActive: boolean
 }
 export const useMainStore = defineStore("main", {
     state: (): MainStore => {
         return {
-            notes: [],
+            notesList: [],
             editActive: false
         }
     },
     getters: {
 
-
     },
     actions: {
         async nodesAll() {
-            this.notes = await getNodesAll();
+            this.notesList = await getNodesAll();
         },
         isEditActive() {
             this.editActive = !this.editActive;
+        },
+        async createNote(clear: boolean = false) {
+            let obj: Note = {
+                id: this.notesList.length + 1,
+                title: '',
+                text: '',
+                date: new Date().toISOString()
+            }
+            await postNode(obj);
+            this.notesList.push(obj);
         }
     }
 });

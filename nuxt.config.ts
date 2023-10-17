@@ -14,5 +14,8 @@ export default defineNuxtConfig({
       }
     ]
   ],
+  buildModules: [
+    '@nuxtjs/moment'
+  ],
   devtools: { enabled: true }
 })
